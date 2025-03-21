@@ -10,6 +10,13 @@ string banco = Console.ReadLine();
 
 Console.Write("Ingrese la empresa emisora: ");
 string empresaEmisora = Console.ReadLine();
+
+Console.WriteLine("Ingrese CVV: ");
+//Para convertir de string a int se usa Convert.ToInt32(parametro)
+//en donde el parametro es el string que se quiere convertir a int, 
+//en este caso el string que se lee por teclado
+int cvv = Convert.ToInt32(Console.ReadLine());
+
 //=================================================
 
 //formas de instanciar (crear) un objeto de la clase TarjetaCredito
