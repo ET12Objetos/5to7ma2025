@@ -1,4 +1,4 @@
-namespace Comportamiento_Excepciones;
+namespace Automovil_Excepciones;
 
 public class Automovil
 {
