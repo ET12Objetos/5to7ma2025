@@ -8,7 +8,7 @@ public class Motor
 
     public bool estado;
 
-    public Motor(string modelo, string tipo, int potencia, int velocidadMaxima)
+    public Motor(string modelo, string tipo, int velocidadMaxima)
     {
         Validaciones.Cadena(tipo, "el tipo es incorrecto");
         this.tipo = tipo;
