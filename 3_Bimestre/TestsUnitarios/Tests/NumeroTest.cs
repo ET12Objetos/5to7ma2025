@@ -4,6 +4,13 @@ namespace Tests;
 
 public class NumeroTest
 {
+    public Numero numero;
+
+    public NumeroTest()
+    {
+        numero = new Numero();
+    }
+
     // [Fact]
     // public void CuandoSeSumeDosNumerosEnterosPositivos_DebeRetornarLaSuma()
     // {
@@ -40,7 +47,7 @@ public class NumeroTest
     public void CuandoSeSumeDosNumerosEnteros_DebeRetornarLaSuma(int a, int b, int resultadoEsperado)
     {
         //Act
-        Numero numero = new Numero();
+        //Numero numero = new Numero();
 
         //Arrange
         int resultado = numero.Sumar(a, b);
@@ -56,7 +63,7 @@ public class NumeroTest
     public void CuandoSeDividaDosNumerosEnteros_DebeRetornarLaDivision(float a, float b, float resultadoEsperado)
     {
         //Act
-        Numero numero = new Numero();
+        //Numero numero = new Numero();
 
         //Arrange
         float resultado = numero.Dividir(a, b);
@@ -70,7 +77,7 @@ public class NumeroTest
     public void CuandoSeDividaDosNumerosEnterosYDivisorEsCero_DebeRetornarLaExcepcion(float a, float b, float resultadoEsperado)
     {
         //Act
-        Numero numero = new Numero();
+        //Numero numero = new Numero();
 
         // //Arrange
         // float resultado = numero.Dividir(a, b);
