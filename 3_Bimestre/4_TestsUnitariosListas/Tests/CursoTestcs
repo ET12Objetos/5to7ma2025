@@ -1,0 +1,29 @@
+﻿namespace Tests;
+
+using Aplicacion;
+using Xunit;
+
+public class CursoTest
+{
+    [Fact]
+    public void DadoUnCurso_CuandoAgregoAlumnos_EntoncesSeAgreganCorrectamente()
+    {
+        var curso = new Curso("Matematica");
+        var alumno1 = new Alumno("Juan", 3);
+        var alumno2 = new Alumno("Ana", 4);
+
+        curso.AgregarAlumno(alumno1);
+        curso.AgregarAlumno(alumno2);
+
+        Assert.Equal(2, curso.Alumnos.Count);
+        Assert.Contains(alumno1, curso.Alumnos);
+        Assert.Contains(alumno2, curso.Alumnos);
+    }
+
+    [Fact]
+    public void DadoUnCursoNuevo_CuandoSeCrea_EntoncesLaListaDeAlumnosEstaVacia()
+    {
+        var curso = new Curso("Historia");
+        Assert.Empty(curso.Alumnos);
+    }
+}
