@@ -1,4 +1,0 @@
-Esta es la primera línea del archivo de ejemplo.
-Aquí tienes una segunda línea para probar la lectura.
-La tercera línea contiene información adicional.
-Finalmente, esta es la cuarta línea del archivo.
