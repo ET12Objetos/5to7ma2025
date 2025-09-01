@@ -1,8 +1,8 @@
 using Xunit;
 using Moq;
 using Aplicacion.Servicios;
-using Aplicacion.Interfaces;
-using Aplicacion.Entidades;
+using Dominio.Interfaces;
+using Dominio.Entidades;
 
 namespace Tests.Servicios
 {

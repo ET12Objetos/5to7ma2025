@@ -5,10 +5,12 @@ Este proyecto implementa una arquitectura de software de 3 capas (Three-Layer Ar
 ## 📋 Tabla de Contenidos
 
 - [Arquitectura del Proyecto](#arquitectura-del-proyecto)
+- [Estructura del Proyecto](#estructura-del-proyecto)
 - [Estructura de Capas](#estructura-de-capas)
-- [Capa de Aplicación](#capa-de-aplicación)
-- [Capa de Tests](#capa-de-tests)
-- [Capa de WebAPI](#capa-de-webapi)
+- [Capa de Dominio](#capa-de-dominio-dominio)
+- [Capa de Aplicación](#capa-de-aplicación-aplicacion)
+- [Capa de Tests](#capa-de-tests-tests)
+- [Capa de Presentación](#capa-de-presentación-presentacion)
 - [Tecnologías Utilizadas](#tecnologías-utilizadas)
 - [Ejecución del Proyecto](#ejecución-del-proyecto)
 
@@ -16,24 +18,30 @@ Este proyecto implementa una arquitectura de software de 3 capas (Three-Layer Ar
 
 La arquitectura de 3 capas separa el sistema en:
 
-1. **Capa de Presentación (WebAPI)**: Maneja la interfaz con el usuario/cliente
+1. **Capa de Presentación (Presentacion)**: Maneja la interfaz con el usuario/cliente a través de Web API
 2. **Capa de Lógica de Negocio (Aplicacion)**: Contiene las reglas de negocio y operaciones
-3. **Capa de Acceso a Datos**: Implementada a través de repositorios (simulados en memoria)
+3. **Capa de Dominio (Dominio)**: Define las entidades, interfaces y reglas del dominio
+4. **Capa de Pruebas (Tests)**: Contiene las pruebas unitarias del sistema
 
 ```
 ┌─────────────────────────────────────────┐
-│           WebAPI (Presentación)         │
+│        Presentacion (Web API)           │
 │  - Controllers                          │
-│  - DTOs                                 │
+│  - Program.cs                           │
 │  - Configuración API                    │
+│  - launchSettings.json                  │
 └─────────────────┬───────────────────────┘
                   │
 ┌─────────────────▼───────────────────────┐
 │        Aplicacion (Lógica Negocio)      │
 │  - Servicios                            │
 │  - Repositorios                         │
-│  - Interfaces                           │
+└─────────────────┬───────────────────────┘
+                  │
+┌─────────────────▼───────────────────────┐
+│          Dominio (Entidades)            │
 │  - Entidades                            │
+│  - Interfaces                           │
 │  - Enums                                │
 └─────────────────┬───────────────────────┘
                   │
@@ -45,11 +53,50 @@ La arquitectura de 3 capas separa el sistema en:
 └─────────────────────────────────────────┘
 ```
 
+## 📁 Estructura del Proyecto
+
+```
+Arquitectura3Capas/
+├── Arquitectura3Capas.sln          # Archivo de solución
+├── README.md                        # Documentación del proyecto
+│
+├── Dominio/                         # 🎯 Capa de Dominio
+│   ├── Dominio.csproj              # Archivo de proyecto
+│   ├── Entidades/
+│   │   └── Usuario.cs              # Entidad Usuario
+│   ├── Enums/
+│   │   └── EstadoUsuario.cs        # Enumeración de estados
+│   └── Interfaces/
+│       └── IUsuarioRepositorio.cs  # Interfaz del repositorio
+│
+├── Aplicacion/                      # 🔧 Capa de Aplicación
+│   ├── Aplicacion.csproj           # Archivo de proyecto
+│   ├── Repositorios/
+│   │   └── UsuarioRepositorio.cs   # Implementación del repositorio
+│   └── Servicios/
+│       └── UsuarioServicio.cs      # Lógica de negocio
+│
+├── Presentacion/                    # 🌐 Capa de Presentación
+│   ├── Presentacion.csproj         # Archivo de proyecto
+│   ├── Program.cs                  # Punto de entrada de la API
+│   ├── Presentacion.http           # Archivo de pruebas HTTP
+│   ├── appsettings.json           # Configuración de la aplicación
+│   ├── appsettings.Development.json # Configuración de desarrollo
+│   └── Properties/
+│       └── launchSettings.json     # Configuración de ejecución
+│
+└── Tests/                          # 🧪 Capa de Pruebas
+    ├── Tests.csproj               # Archivo de proyecto de tests
+    ├── UnitTest1.cs               # Prueba unitaria base
+    └── Servicios/
+        └── UsuarioServicioTests.cs # Tests del servicio de usuarios
+```
+
 ## 🔧 Estructura de Capas
 
-### 📁 Capa de Aplicación (`Aplicacion/`)
+### 📁 Capa de Dominio (`Dominio/`)
 
-Esta capa contiene toda la lógica de negocio y las entidades del dominio.
+Esta capa contiene las entidades fundamentales del dominio, las reglas de negocio más importantes y las interfaces que definen contratos para otras capas.
 
 #### 📂 `Entidades/`
 **Propósito**: Contiene las clases que representan los objetos del dominio del negocio.
@@ -67,6 +114,7 @@ public class Usuario
     public int Id { get; set; }
     public string Nombre { get; set; }
     public string Email { get; set; }
+    public EstadoUsuario Estado { get; set; }
     // ... otras propiedades
 }
 ```
@@ -99,7 +147,7 @@ public enum EstadoUsuario
 ```
 
 #### 📂 `Interfaces/`
-**Propósito**: Define contratos que deben implementar las clases de infraestructura.
+**Propósito**: Define contratos que deben implementar las clases de infraestructura y aplicación.
 
 **Tipos de interfaces que debe contener**:
 - **Interfaces de Repositorio**: Definen operaciones de acceso a datos
@@ -114,6 +162,8 @@ public interface IUsuarioRepositorio
     Usuario? ObtenerPorId(int id);
     IEnumerable<Usuario> ObtenerTodos();
     Usuario Crear(Usuario usuario);
+    Usuario Actualizar(Usuario usuario);
+    bool Eliminar(int id);
     // ... otros métodos
 }
 ```
@@ -123,6 +173,10 @@ public interface IUsuarioRepositorio
 - ✅ Facilita el testing con mocks
 - ✅ Permite intercambiar implementaciones
 - ✅ Invierte las dependencias
+
+### 📁 Capa de Aplicación (`Aplicacion/`)
+
+Esta capa contiene la implementación de la lógica de negocio y la coordinación entre el dominio y la presentación.
 
 #### 📂 `Repositorios/`
 **Propósito**: Implementa el patrón Repository para el acceso a datos.
@@ -222,25 +276,53 @@ public void CrearUsuario_DeberiaLanzarExcepcion_CuandoEmailYaExiste()
 - ✅ Nombrado descriptivo de métodos
 - ✅ Cobertura de casos edge
 
-### 📁 Capa de WebAPI (`WebAPI/`)
+### 📁 Capa de Presentación (`Presentacion/`)
 
 Capa de presentación que expone la funcionalidad a través de una API REST.
 
 **Tipos de componentes que debe contener**:
 - **Controllers**: Manejan las peticiones HTTP
-- **DTOs**: Objetos de transferencia de datos
-- **Middlewares**: Componentes transversales
-- **Configuración**: Setup de la aplicación
+- **Program.cs**: Configuración y punto de entrada de la aplicación
+- **Configuración**: Setup de la aplicación y servicios
+- **Launch Settings**: Configuración de ejecución y perfiles
 
-**Estructura típica**:
+**Estructura actual**:
 ```
-WebAPI/
-├── Controllers/           # Controladores de la API
-├── DTOs/                 # Objetos de transferencia
-├── Middlewares/          # Componentes transversales
-├── Program.cs            # Punto de entrada
-└── appsettings.json      # Configuración
+Presentacion/
+├── Program.cs                    # Punto de entrada y configuración
+├── Presentacion.http            # Archivo de pruebas HTTP
+├── appsettings.json            # Configuración de la aplicación
+├── appsettings.Development.json # Configuración de desarrollo
+└── Properties/
+    └── launchSettings.json     # Configuración de ejecución
 ```
+
+**Ejemplo de configuración**:
+```csharp
+// Program.cs - Configuración de la aplicación
+var builder = WebApplication.CreateBuilder(args);
+
+// Registrar servicios
+builder.Services.AddControllers();
+builder.Services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+builder.Services.AddScoped<UsuarioServicio>();
+
+var app = builder.Build();
+
+// Configurar pipeline
+app.UseRouting();
+app.MapControllers();
+
+app.Run();
+```
+
+**Responsabilidades**:
+- ✅ Manejar peticiones HTTP
+- ✅ Validar entrada de datos
+- ✅ Serializar/deserializar JSON
+- ✅ Configurar servicios e inyección de dependencias
+- ❌ No debe contener lógica de negocio
+- ❌ No debe acceder directamente a repositorios
 
 ## 💻 Tecnologías Utilizadas
 
@@ -264,7 +346,7 @@ dotnet test
 
 ### Ejecutar la API:
 ```bash
-dotnet run --project WebAPI
+dotnet run --project Presentacion
 ```
 
 ## 📋 Principios de Arquitectura Aplicados
@@ -295,8 +377,17 @@ El uso de interfaces permite realizar pruebas unitarias efectivas.
 ## 🔄 Flujo de Datos
 
 ```
-Cliente → WebAPI Controller → Servicio → Repositorio → Datos
-       ←                   ←          ←             ←
+Cliente → Presentacion (API) → Aplicacion (Servicio) → Dominio (Entidades/Interfaces) → Aplicacion (Repositorio) → Datos
+       ←                    ←                        ←                                ←                        ←
 ```
+
+### Flujo Detallado:
+
+1. **Cliente** → Envía petición HTTP a la API
+2. **Presentacion** → Recibe la petición y valida los datos de entrada
+3. **Aplicacion (Servicio)** → Ejecuta la lógica de negocio usando entidades del dominio
+4. **Dominio** → Proporciona entidades, enums e interfaces para las operaciones
+5. **Aplicacion (Repositorio)** → Implementa las interfaces del dominio para acceso a datos
+6. **Datos** → Almacena o recupera información (en memoria en este proyecto)
 
 Esta arquitectura garantiza un código mantenible, testeable y escalable, siguiendo las mejores prácticas de desarrollo de software.

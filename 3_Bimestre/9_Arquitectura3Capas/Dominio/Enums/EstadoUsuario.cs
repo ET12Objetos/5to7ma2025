@@ -1,4 +1,4 @@
-namespace Aplicacion.Enums
+namespace Dominio.Enums
 {
     public enum EstadoUsuario
     {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Aplicacion.Entidades
+namespace Dominio.Entidades
 {
     public class Usuario
     {

@@ -1,6 +1,6 @@
-using Aplicacion.Entidades;
+using Dominio.Entidades;
 
-namespace Aplicacion.Interfaces
+namespace Dominio.Interfaces
 {
     public interface IUsuarioRepositorio
     {

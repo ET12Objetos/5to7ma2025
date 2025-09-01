@@ -1,5 +1,5 @@
-using Aplicacion.Entidades;
-using Aplicacion.Interfaces;
+using Dominio.Entidades;
+using Dominio.Interfaces;
 
 namespace Aplicacion.Repositorios
 {
