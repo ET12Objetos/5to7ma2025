@@ -1,0 +1,103 @@
+@MinimalApiPost_HostAddress = http://localhost:5132
+
+# Obtener todos los clientes
+GET {{MinimalApiPost_HostAddress}}/clientes
+Accept: application/json
+
+###
+
+# Crear cliente con DataAnnotations (caso válido)
+POST {{MinimalApiPost_HostAddress}}/clientes_dataAnnotation
+Content-Type: application/json
+
+{
+  "id": 4,
+  "nombre": "Ana García",
+  "email": "ana.garcia@email.com"
+}
+
+###
+
+# Crear cliente con Static Class Validator (caso válido)
+POST {{MinimalApiPost_HostAddress}}/clientes_staticClass
+Content-Type: application/json
+
+{
+  "id": 5,
+  "nombre": "Carlos López",
+  "email": "carlos.lopez@email.com"
+}
+
+###
+
+# Crear cliente con FluentValidation (caso válido)
+POST {{MinimalApiPost_HostAddress}}/clientes_fluentValidation
+Content-Type: application/json
+
+{
+  "id": 6,
+  "nombre": "María Rodríguez",
+  "email": "maria.rodriguez@email.com"
+}
+
+###
+
+# Prueba de validación con Static Class (caso inválido)
+POST {{MinimalApiPost_HostAddress}}/clientes_staticClass
+Content-Type: application/json
+
+{
+  "id": 0,
+  "nombre": "A",
+  "email": "email-invalido"
+}
+
+###
+
+# Prueba de validación con FluentValidation (caso inválido)
+POST {{MinimalApiPost_HostAddress}}/clientes_fluentValidation
+Content-Type: application/json
+
+{
+  "id": -1,
+  "nombre": "",
+  "email": "no-es-email"
+}
+
+###
+
+# Crear cliente SIN validación (caso válido)
+POST {{MinimalApiPost_HostAddress}}/clientes_sinValidacion
+Content-Type: application/json
+
+{
+  "id": 7,
+  "nombre": "Pedro Sánchez",
+  "email": "pedro.sanchez@email.com"
+}
+
+###
+
+# Crear cliente SIN validación (caso inválido - pero se acepta)
+POST {{MinimalApiPost_HostAddress}}/clientes_sinValidacion
+Content-Type: application/json
+
+{
+  "id": -999,
+  "nombre": "",
+  "email": "esto-no-es-un-email"
+}
+
+###
+
+# Crear cliente SIN validación (datos extremos - pero se acepta)
+POST {{MinimalApiPost_HostAddress}}/clientes_sinValidacion
+Content-Type: application/json
+
+{
+  "id": 0,
+  "nombre": "X",
+  "email": "x"
+}
+
+###
