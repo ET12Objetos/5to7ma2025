@@ -1,0 +1,6 @@
+@MinimalApiDelete_HostAddress = http://localhost:5143
+
+GET {{MinimalApiDelete_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
