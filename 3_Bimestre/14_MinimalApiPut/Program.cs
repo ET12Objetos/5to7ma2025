@@ -15,6 +15,20 @@ var clientes = new List<Cliente>
 
 app.MapGet("/clientes", () => clientes);
 
+//Endpoint PUT sin validaciones
+app.MapPut("/clientes/{id}", (int id, Cliente clienteActualizado) =>
+{
+    var cliente = clientes.FirstOrDefault(c => c.Id == id);
+    if (cliente is null)
+    {
+        return Results.NotFound();
+    }
+
+    cliente.Nombre = clienteActualizado.Nombre;
+    cliente.Email = clienteActualizado.Email;
+    return Results.Ok(cliente);
+});
+
 //Endpoint para crear un cliente con validación usando Data Annotations
 app.MapPost("/clientes_dataAnnotation", ([FromBody] Cliente cliente) =>
 {
@@ -39,7 +53,7 @@ app.MapPost("/clientes_dataAnnotation", ([FromBody] Cliente cliente) =>
 });
 
 //Endpoint para actualizar un cliente con validación usando Data Annotations
-app.MapPut("/clientes/{id}", (int id, Cliente clienteActualizado) =>
+app.MapPut("/clientes_dataAnnotation/{id}", (int id, Cliente clienteActualizado) =>
 {
     #region Validación usando Data Annotations
     var validationContext = new ValidationContext(clienteActualizado);
@@ -66,6 +80,5 @@ app.MapPut("/clientes/{id}", (int id, Cliente clienteActualizado) =>
     cliente.Email = clienteActualizado.Email;
     return Results.Ok(cliente);
 });
-
 
 app.Run();
