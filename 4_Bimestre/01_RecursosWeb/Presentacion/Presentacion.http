@@ -1,0 +1,6 @@
+@ArquitecturaTresCapas_HostAddress = http://localhost:5124
+
+GET {{ArquitecturaTresCapas_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
