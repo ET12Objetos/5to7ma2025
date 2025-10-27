@@ -15,7 +15,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
 // Configurar DbContext
-var connectionString = builder.Configuration.GetConnectionString("aplicacion");  
+var connectionString = builder.Configuration.GetConnectionString("aplicacion");
 
 builder.Services.AddDbContext<Datos.AplicacionDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
@@ -23,7 +23,9 @@ builder.Services.AddDbContext<Datos.AplicacionDbContext>(options =>
 
 // Inyección de dependencias
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IProveedorRepository, ProveedorRepository>();
 builder.Services.AddTransient<IClienteService, ClienteService>();
+builder.Services.AddTransient<IProveedorService, ProveedorService>();
 
 var app = builder.Build();
 
@@ -41,5 +43,6 @@ app.UseSwaggerUI(x => x.EnableTryItOutByDefault());
 
 // Configurar endpoints de Cliente
 app.MapClienteEndpoints();
+app.MapProveedorEndpoints();
 
 app.Run();

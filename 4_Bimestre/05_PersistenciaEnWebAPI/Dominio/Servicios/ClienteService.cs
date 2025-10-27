@@ -1,5 +1,6 @@
 using Datos.Entidades;
 using Datos.Interfaces;
+using Dominio.DTOs;
 using Dominio.Interfaces;
 
 namespace Dominio.Servicios;
@@ -13,8 +14,13 @@ public class ClienteService : IClienteService
         this.clienteRepository = clienteRepository;
     }
 
-    public Cliente Create(Cliente cliente)
+    public Cliente Create(ClientePostDto clienteDto)
     {
+        Cliente cliente = new Cliente();
+
+        cliente.Nombre = clienteDto.Nombre;
+        cliente.Email = clienteDto.Email;
+
         return clienteRepository.Crear(cliente);
     }
 
@@ -30,7 +36,7 @@ public class ClienteService : IClienteService
 
     public IEnumerable<Cliente> GetAll()
     {
-        return clienteRepository.ObtenerTodos();    
+        return clienteRepository.ObtenerTodos();
     }
 
     public Cliente? GetById(Guid id)

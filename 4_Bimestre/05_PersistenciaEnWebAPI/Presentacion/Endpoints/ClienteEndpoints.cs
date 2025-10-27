@@ -1,4 +1,5 @@
 using Datos.Entidades;
+using Dominio.DTOs;
 using Dominio.Interfaces;
 
 namespace Presentacion.Endpoints;
@@ -18,9 +19,10 @@ public static class ClienteEndpoints
             return cliente is not null ? Results.Ok(cliente) : Results.NotFound();
         });
 
-        app.MapPost("/clientes", (Cliente cliente, IClienteService clienteService) =>
+        app.MapPost("/clientes", (ClientePostDto clienteDto, IClienteService clienteService) =>
         {
-            var nuevoCliente = clienteService.Create(cliente);
+            var nuevoCliente = clienteService.Create(clienteDto);
+
             return Results.Created($"/clientes/{nuevoCliente.Id}", nuevoCliente);
         });
 
